@@ -1,0 +1,789 @@
+/* ─── Apple Design Share Modal (Clean, Stable, Anti-Jitter) ─── */
+
+.apple-share-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.38);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 16px;
+}
+
+.apple-share-card {
+  width: 100%;
+  max-width: 440px;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  box-shadow: 
+    0 24px 50px -12px rgba(0, 0, 0, 0.22),
+    0 0 0 1px rgba(0, 0, 0, 0.04);
+  padding: 20px;
+  color: #111827;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Icons', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  user-select: none;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+  transform: translateZ(0);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Dark mode support */
+[data-theme*="dark"] .apple-share-card,
+[data-is-dark="true"] .apple-share-card,
+body.dark .apple-share-card {
+  background: #1c1c1f;
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 
+    0 28px 60px -12px rgba(0, 0, 0, 0.75),
+    0 0 0 1px rgba(255, 255, 255, 0.06);
+  color: #f3f4f6;
+}
+
+/* Header */
+.apple-share-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.apple-share-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: inherit;
+}
+
+.apple-share-close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.05);
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.apple-share-close-btn:hover {
+  background: rgba(0, 0, 0, 0.09);
+  color: #111827;
+}
+
+.apple-share-close-btn:active {
+  transform: scale(0.94);
+}
+
+[data-theme*="dark"] .apple-share-close-btn,
+[data-is-dark="true"] .apple-share-close-btn,
+body.dark .apple-share-close-btn {
+  background: rgba(255, 255, 255, 0.08);
+  color: #9ca3af;
+}
+
+[data-theme*="dark"] .apple-share-close-btn:hover,
+[data-is-dark="true"] .apple-share-close-btn:hover,
+body.dark .apple-share-close-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+}
+
+/* ─── Apple iOS ON / OFF Toggle Row ─── */
+.apple-share-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 14px;
+  margin-bottom: 12px;
+}
+
+[data-theme*="dark"] .apple-share-toggle-row,
+[data-is-dark="true"] .apple-share-toggle-row,
+body.dark .apple-share-toggle-row {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.apple-share-toggle-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.apple-share-toggle-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+  letter-spacing: -0.01em;
+}
+
+[data-theme*="dark"] .apple-share-toggle-title,
+[data-is-dark="true"] .apple-share-toggle-title,
+body.dark .apple-share-toggle-title {
+  color: #f3f4f6;
+}
+
+/* Apple iOS Switch Control */
+.apple-ios-switch {
+  position: relative;
+  width: 48px;
+  height: 28px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  padding: 2px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+  flex-shrink: 0;
+  background: rgba(120, 120, 128, 0.22);
+}
+
+.apple-ios-switch:focus-visible {
+  outline: 2px solid #34c759;
+  outline-offset: 2px;
+}
+
+.apple-ios-switch.is-on {
+  background: #34c759; /* Apple iOS standard green */
+}
+
+.apple-ios-switch.is-off {
+  background: rgba(120, 120, 128, 0.24);
+}
+
+[data-theme*="dark"] .apple-ios-switch.is-off,
+[data-is-dark="true"] .apple-ios-switch.is-off,
+body.dark .apple-ios-switch.is-off {
+  background: rgba(120, 120, 128, 0.38);
+}
+
+.apple-ios-switch-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.18), 0 1px 2px rgba(0, 0, 0, 0.06);
+  pointer-events: none;
+}
+
+/* ─── Stable Non-Jitter Body Container ─── */
+.apple-share-body {
+  position: relative;
+  height: 154px;
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.apple-share-pane {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+/* ─── Apple Segmented Control (Isolated & Hover-Safe) ─── */
+.share-segmented-control {
+  display: flex;
+  align-items: center;
+  background: #000000;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  padding: 3px;
+  gap: 3px;
+  margin-bottom: 12px;
+  height: 38px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  user-select: none;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme*="dark"] .share-segmented-control,
+[data-is-dark="true"] .share-segmented-control,
+body.dark .share-segmented-control {
+  background: #111114;
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.share-segment-btn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  height: 100%;
+  border: none;
+  border-radius: 9px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #94a3b8;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+  padding: 0 12px;
+  box-sizing: border-box;
+}
+
+.share-segment-btn:hover {
+  color: #ffffff;
+}
+
+.share-segment-icon {
+  flex-shrink: 0;
+  color: inherit;
+  transition: color 0.15s ease;
+}
+
+/* Active state - crisp white rectangle */
+.share-segment-btn.is-active,
+.share-segment-btn.active {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  font-weight: 600 !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+/* Hover on active state - MUST STAY CRISP DARK! NEVER TURN WHITE! */
+.share-segment-btn.is-active:hover,
+.share-segment-btn.active:hover {
+  background: #ffffff !important;
+  color: #0f172a !important;
+}
+
+.share-segment-btn.is-active .share-segment-icon,
+.share-segment-btn.active .share-segment-icon,
+.share-segment-btn.is-active:hover .share-segment-icon,
+.share-segment-btn.active:hover .share-segment-icon {
+  color: #0f172a !important;
+}
+
+/* Inactive button hover */
+.share-segment-btn:not(.is-active):not(.active) {
+  color: #94a3b8 !important;
+  background: transparent !important;
+}
+
+.share-segment-btn:not(.is-active):not(.active):hover {
+  color: #ffffff !important;
+}
+
+.share-segment-btn:not(.is-active):not(.active) .share-segment-icon {
+  color: #94a3b8 !important;
+}
+
+.share-segment-btn:not(.is-active):not(.active):hover .share-segment-icon {
+  color: #ffffff !important;
+}
+
+.apple-share-tab-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* Share Link Input Row */
+.apple-share-input-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.apple-share-input-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  padding: 4px 8px 4px 12px;
+  gap: 8px;
+  height: 38px;
+  box-sizing: border-box;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  min-width: 0;
+}
+
+.apple-share-input-wrapper:focus-within {
+  border-color: #111827;
+  box-shadow: 0 0 0 2px rgba(17, 24, 39, 0.08);
+}
+
+[data-theme*="dark"] .apple-share-input-wrapper,
+[data-is-dark="true"] .apple-share-input-wrapper,
+body.dark .apple-share-input-wrapper {
+  background: rgba(18, 18, 20, 0.8);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+[data-theme*="dark"] .apple-share-input-wrapper:focus-within,
+[data-is-dark="true"] .apple-share-input-wrapper:focus-within,
+body.dark .apple-share-input-wrapper:focus-within {
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.08);
+}
+
+.apple-share-link-icon {
+  color: #9ca3af;
+  flex-shrink: 0;
+}
+
+.apple-share-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 13px;
+  color: #111827;
+  padding: 0;
+  min-width: 0;
+}
+
+[data-theme*="dark"] .apple-share-input,
+[data-is-dark="true"] .apple-share-input,
+body.dark .apple-share-input {
+  color: #f3f4f6;
+}
+
+/* Copy Action Button */
+.apple-share-copy-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-width: 72px;
+  height: 38px;
+  background: #111827;
+  color: #ffffff;
+  border: none;
+  border-radius: 980px;
+  padding: 0 14px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+}
+
+.apple-share-copy-btn:hover {
+  background: #000000;
+}
+
+.apple-share-copy-btn:active {
+  transform: scale(0.96);
+}
+
+.apple-share-copy-btn.is-copied {
+  background: #10b981;
+  color: #ffffff;
+}
+
+[data-theme*="dark"] .apple-share-copy-btn,
+[data-is-dark="true"] .apple-share-copy-btn,
+body.dark .apple-share-copy-btn {
+  background: #ffffff;
+  color: #111827;
+}
+
+[data-theme*="dark"] .apple-share-copy-btn:hover,
+[data-is-dark="true"] .apple-share-copy-btn:hover,
+body.dark .apple-share-copy-btn:hover {
+  background: #e5e7eb;
+}
+
+[data-theme*="dark"] .apple-share-copy-btn.is-copied,
+[data-is-dark="true"] .apple-share-copy-btn.is-copied,
+body.dark .apple-share-copy-btn.is-copied {
+  background: #10b981;
+  color: #ffffff;
+}
+
+.apple-share-helper-text {
+  font-size: 11.5px;
+  color: #64748b;
+  margin-top: 10px;
+  line-height: 1.35;
+}
+
+[data-theme*="dark"] .apple-share-helper-text,
+[data-is-dark="true"] .apple-share-helper-text,
+body.dark .apple-share-helper-text {
+  color: #9ca3af;
+}
+
+/* ─── GitHub README Bar & Snippet Box ─── */
+.apple-share-gh-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  gap: 8px;
+}
+
+.apple-share-gh-format-pills {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.apple-share-format-pill {
+  padding: 3px 8px;
+  font-size: 11px;
+  font-weight: 500;
+  border-radius: 6px;
+  background: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+
+.apple-share-format-pill:hover {
+  border-color: rgba(0, 0, 0, 0.2);
+  color: #111827;
+}
+
+.apple-share-format-pill.is-active,
+.apple-share-format-pill.is-active:hover {
+  background: #111827;
+  border-color: #111827;
+  color: #ffffff !important;
+  font-weight: 600;
+}
+
+[data-theme*="dark"] .apple-share-format-pill {
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #9ca3af;
+}
+
+[data-theme*="dark"] .apple-share-format-pill:hover {
+  border-color: rgba(255, 255, 255, 0.28);
+  color: #ffffff;
+}
+
+[data-theme*="dark"] .apple-share-format-pill.is-active,
+[data-theme*="dark"] .apple-share-format-pill.is-active:hover {
+  background: #ffffff;
+  border-color: #ffffff;
+  color: #111827 !important;
+}
+
+.apple-share-copy-gh-btn {
+  height: 26px !important;
+  font-size: 11.5px !important;
+  padding: 0 10px !important;
+  border-radius: 7px !important;
+}
+
+/* Snippet Code Box with Ultra-Thin Apple Scrollbar */
+.apple-share-code-box {
+  position: relative;
+  height: 74px;
+  background: #f8fafc;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 10px;
+  padding: 7px 10px 8px 10px;
+  overflow-x: auto;
+  overflow-y: auto;
+  box-sizing: border-box;
+  cursor: text;
+  transition: border-color 0.15s ease;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(15, 23, 42, 0.22) transparent;
+}
+
+.apple-share-code-box:hover {
+  border-color: rgba(0, 0, 0, 0.2);
+}
+
+[data-theme*="dark"] .apple-share-code-box {
+  background: rgba(0, 0, 0, 0.35);
+  border-color: rgba(255, 255, 255, 0.1);
+  scrollbar-color: rgba(255, 255, 255, 0.25) transparent;
+}
+
+[data-theme*="dark"] .apple-share-code-box:hover {
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+/* Expansion Button inside Preview Box */
+.apple-share-expand-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.14s ease;
+  z-index: 2;
+  padding: 0;
+}
+
+.apple-share-expand-btn:hover {
+  background: #ffffff;
+  color: #0f172a;
+  border-color: rgba(0, 0, 0, 0.18);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.apple-share-expand-btn:active {
+  transform: scale(0.92);
+}
+
+[data-theme*="dark"] .apple-share-expand-btn,
+[data-is-dark="true"] .apple-share-expand-btn,
+body.dark .apple-share-expand-btn {
+  background: rgba(30, 30, 35, 0.88);
+  border-color: rgba(255, 255, 255, 0.14);
+  color: #9ca3af;
+}
+
+[data-theme*="dark"] .apple-share-expand-btn:hover,
+[data-is-dark="true"] .apple-share-expand-btn:hover,
+body.dark .apple-share-expand-btn:hover {
+  background: rgba(45, 45, 50, 0.95);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+/* Custom ultra-thin scrollbar (3.5px instead of default 16px) */
+.apple-share-code-box::-webkit-scrollbar {
+  width: 4px;
+  height: 3.5px;
+}
+
+.apple-share-code-box::-webkit-scrollbar-track {
+  background: transparent;
+  margin: 0 4px;
+}
+
+.apple-share-code-box::-webkit-scrollbar-thumb {
+  background: rgba(15, 23, 42, 0.2);
+  border-radius: 999px;
+}
+
+.apple-share-code-box::-webkit-scrollbar-thumb:hover {
+  background: rgba(15, 23, 42, 0.4);
+}
+
+[data-theme*="dark"] .apple-share-code-box::-webkit-scrollbar-thumb,
+[data-is-dark="true"] .apple-share-code-box::-webkit-scrollbar-thumb,
+body.dark .apple-share-code-box::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+[data-theme*="dark"] .apple-share-code-box::-webkit-scrollbar-thumb:hover,
+[data-is-dark="true"] .apple-share-code-box::-webkit-scrollbar-thumb:hover,
+body.dark .apple-share-code-box::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.apple-share-code-box code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 11px;
+  line-height: 1.45;
+  color: #334155;
+  white-space: pre;
+  display: block;
+}
+
+[data-theme*="dark"] .apple-share-code-box code {
+  color: #e2e8f0;
+}
+
+/* ─── Expanded Full-Card Overlay ─── */
+.apple-share-expanded-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 18px 20px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+[data-theme*="dark"] .apple-share-expanded-overlay,
+[data-is-dark="true"] .apple-share-expanded-overlay,
+body.dark .apple-share-expanded-overlay {
+  background: #1c1c1f;
+}
+
+.apple-share-expanded-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  flex-shrink: 0;
+  gap: 8px;
+}
+
+.apple-share-expanded-title-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.apple-share-expanded-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+  letter-spacing: -0.01em;
+}
+
+[data-theme*="dark"] .apple-share-expanded-title,
+[data-is-dark="true"] .apple-share-expanded-title,
+body.dark .apple-share-expanded-title {
+  color: #f3f4f6;
+}
+
+.apple-share-expanded-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Expanded Code Box filling the entire card height */
+.apple-share-code-box.is-expanded {
+  flex: 1;
+  height: auto;
+  min-height: 0;
+  max-height: none;
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+
+/* ─── Sharing Off / Disabled State (Centered, Same Height) ─── */
+.apple-share-off-pane {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px dashed rgba(0, 0, 0, 0.12);
+  border-radius: 14px;
+  padding: 16px;
+}
+
+[data-theme*="dark"] .apple-share-off-pane,
+[data-is-dark="true"] .apple-share-off-pane,
+body.dark .apple-share-off-pane {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.apple-share-off-icon-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.05);
+  color: #64748b;
+  flex-shrink: 0;
+}
+
+[data-theme*="dark"] .apple-share-off-icon-box,
+[data-is-dark="true"] .apple-share-off-icon-box,
+body.dark .apple-share-off-icon-box {
+  background: rgba(255, 255, 255, 0.08);
+  color: #9ca3af;
+}
+
+.apple-share-off-message {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.apple-share-off-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #111827;
+}
+
+[data-theme*="dark"] .apple-share-off-title,
+[data-is-dark="true"] .apple-share-off-title,
+body.dark .apple-share-off-title {
+  color: #f3f4f6;
+}
+
+.apple-share-off-desc {
+  font-size: 11.5px;
+  color: #64748b;
+  max-width: 290px;
+  line-height: 1.35;
+}
+
+[data-theme*="dark"] .apple-share-off-desc,
+[data-is-dark="true"] .apple-share-off-desc,
+body.dark .apple-share-off-desc {
+  color: #9ca3af;
+}
+
+/* Skeleton / Shimmer Animation */
+.apple-share-skeleton-wrap {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.apple-share-shimmer {
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.05) 25%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.05) 75%);
+  background-size: 200% 100%;
+  animation: appleShareShimmer 1.5s infinite;
+  border-radius: 12px;
+}
+
+[data-theme*="dark"] .apple-share-shimmer,
+[data-is-dark="true"] .apple-share-shimmer,
+body.dark .apple-share-shimmer {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.06) 25%, rgba(255, 255, 255, 0.12) 50%, rgba(255, 255, 255, 0.06) 75%);
+  background-size: 200% 100%;
+}
+
+@keyframes appleShareShimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.apple-share-shimmer-input {
+  height: 44px;
+  width: 100%;
+  border-radius: 12px;
+}

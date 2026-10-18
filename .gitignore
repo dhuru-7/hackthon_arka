@@ -1,0 +1,32 @@
+node_modules/
+.env
+.env.local
+.DS_Store
+dist/
+build/
+coverage/
+.idea/
+.vscode/
+*.log
+
+# Python
+__pycache__/
+*.pyc
+venv/
+backend/venv/
+.planning/
+
+# InsForge & AI agent skills
+.insforge
+.agent
+.agents
+.augment
+.claude
+.cline
+.github/copilot*
+.kilocode
+.qoder
+.qwen
+.roo
+.trae
+.windsurf
